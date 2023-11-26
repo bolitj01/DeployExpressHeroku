@@ -62,7 +62,7 @@ const App = () => {
 		getTodos();
 	};
 
-	//update todo in firebase
+	//toggle todo completeness
 	const toggleComplete = async (todo) => {
 		const res = await fetch(`${devAPIURL}/toggle-todo`, {
 			method: "PUT",
@@ -76,8 +76,17 @@ const App = () => {
 
 	//delete todo
 	const deleteTodo = async (id) => {
-		//TODO
+		const res = await fetch(`${devAPIURL}/delete-todo`, {
+			method: "DELETE",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({ id }),
+		});
+		getTodos();
 	};
+
+	//render contents
 	return (
 		<div className={style.bg}>
 			<div className={style.container}>

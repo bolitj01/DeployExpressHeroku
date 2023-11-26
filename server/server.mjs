@@ -106,7 +106,13 @@ app.put('/toggle-todo', async (req, res) => {
 });
 
 //delete todo
-
+app.delete('/delete-todo', async (req, res) => {
+    // const authData = await pb.collection('users').authWithToken(
+    //     req.headers.authorization,
+    // );
+    const todoResult = await pb.collection('todos').delete(req.body.id);
+    res.json(todoResult);
+});
 
 //start server
 app.listen(8080, () => {
