@@ -1,42 +1,114 @@
 import { log } from 'console';
 import PocketBase from 'pocketbase';
 import express from 'express';
+import path from 'path';
+import cors from 'cors';
+import { fileURLToPath } from 'url';
 
 const pb = new PocketBase('http://127.0.0.1:8090');
 
 const app = express();
 
-//middleware
+// Get __dirname in es6 modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const buildFolder = "../client/dist";
+console.log('__dirname: ', __dirname);
+
+// Server React build folder
+app.use(express.static(path.join(__dirname, buildFolder)));
+
+//JSON body parser
 app.use(express.json());
+app.use(cors());
 
-// const result = await pb.collection('users').create({
-//     name: 'Thomas Bolinger',
-//     email: 'bolitj01@pfw.edu',
-//     password: 'cs590pfw',
-//     passwordConfirm: 'cs590pfw'
-// });
-
-const users = await pb.collection('users').getList();
-// log(users);
-
-const authData = await pb.collection('users').authWithPassword(
-    'bolitj01@pfw.edu',
-    'cs590pfw',
-);
-log(authData.record.id);
-
-const removeAll = await pb.collection('todos').delete
-
-const todoResult = await pb.collection('todos').create({
-    name: 'Test Todo',
-    completed: false,
-    user: authData.record.id,
+// Serve React entrypoint index.html
+app.get('/', (req, res) => {
+    console.log("Home Page");
+    res.sendFile(path.resolve(__dirname, buildFolder, 'index.html'));
 });
 
-let filterStr = `user = ${authData.record.id}`;
+//create user
+app.post('/signup', async (req, res) => {
+    const result = await pb.collection('users').create({
+        name: req.body.name,
+        email: req.body.email,
+        password: req.body.password,
+        passwordConfirm: req.body.passwordConfirm,
+    });
 
-log(filterStr);
+    res.json(result);
+});
 
-// const todos = await pb.collection('todos').getList({
-//     filter: filterStr,
-// });
+//login user
+app.post('/login', async (req, res) => {
+    const result = await pb.collection('users').authWithPassword(
+        req.body.email,
+        req.body.password,
+    );
+    res.json(result);
+});
+
+//get todos
+app.get('/todos', async (req, res) => {
+    try {
+        // const authData = await pb.collection('users').authWithToken(
+        //     req.headers.authorization,
+        // );
+        const todos = await pb.collection('todos').getList(1, 50, {
+            filter: `user = "hvqhq4z4yzj256u"`,
+        });
+        console.log('todos: ', todos);
+        res.json(todos);
+    } catch (error) {
+        console.log('error: ', error);
+        res.json(error);
+    }
+});
+
+//create todo
+app.post('/create-todo', async (req, res) => {
+    // const authData = await pb.collection('users').authWithToken(
+    //     req.headers.authorization,
+    // );
+    const todoResult = await pb.collection('todos').create({
+        name: req.body.name,
+        completed: false,
+        user: "hvqhq4z4yzj256u",
+    });
+    res.json(todoResult);
+});
+
+//get todos
+app.get('/todos', async (req, res) => {
+    // const authData = await pb.collection('users').authWithToken(
+    //     req.headers.authorization,
+    // );
+    const todos = await pb.collection('todos').getList(1, 50, {
+        filter: `user = "hvqhq4z4yzj256u"`,
+    });
+    log('todos: ', todos);
+    res.json(todos);
+});
+
+//toggle todo completeness
+app.put('/toggle-todo', async (req, res) => {
+    // const authData = await pb.collection('users').authWithToken(
+    //     req.headers.authorization,
+    // );
+    const todoResult = await pb.collection('todos').update(
+        req.body.id,
+        {
+            completed: req.body.completed,
+        },
+    );
+    res.json(todoResult);
+});
+
+//delete todo
+
+
+//start server
+app.listen(8080, () => {
+    log('Server started on port 8080');
+});
