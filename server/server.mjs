@@ -3,8 +3,11 @@ import express from 'express';
 import path from 'path';
 import cors from 'cors';
 import { fileURLToPath } from 'url';
+import { config } from 'dotenv';
 
-const pb = new PocketBase('http://127.0.0.1:8090');
+config();
+
+const pb = new PocketBase(process.env.POCKETBASE_URL);
 
 const app = express();
 
@@ -110,6 +113,6 @@ app.delete('/delete-todo', async (req, res) => {
 });
 
 //start server
-app.listen(8080, () => {
-    console.log('Server started on port 8080');
+app.listen(process.env.PORT, () => {
+    console.log(`Server listening at http://localhost:${process.env.PORT}`);
 });

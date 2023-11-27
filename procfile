@@ -1,0 +1,2 @@
+web: npm start
+pocketbase: ./server/pocketbase_linux/pocketbase serve
