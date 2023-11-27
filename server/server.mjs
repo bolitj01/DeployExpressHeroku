@@ -16,7 +16,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const buildFolder = "../client/dist";
 
-// Server React build folder
+// Serve React build folder
 app.use(express.static(path.join(__dirname, buildFolder)));
 
 //JSON body parser
