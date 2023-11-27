@@ -4,12 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon server.mjs"
+    "server": "node server.mjs",
+    "database": "cd pocketbase_windows && pocketbase serve",
+    "start": "concurrently \"npm run database\" \"npm run server\""
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "concurrently": "^8.2.2",
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "pocketbase": "^0.19.0"
