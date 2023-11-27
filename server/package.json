@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "server": "node server.mjs",
-    "database": "cd pocketbase_windows && pocketbase serve",
+    "database": "cd pocketbase_linux && ./pocketbase serve",
     "start": "concurrently \"npm run database\" \"npm run server\""
   },
   "keywords": [],
