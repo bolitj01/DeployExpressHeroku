@@ -4,7 +4,7 @@
       "install-server": "cd server && npm install",
       "build-client": "cd client && npm run build",
       "start": "cd server && npm start",
-      "postinstall": "npm run build-client"
+      "postinstall": "npm run install-client && npm run install-server && npm run build-client"
     }
   }
   
