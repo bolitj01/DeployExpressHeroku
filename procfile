@@ -1,2 +1,2 @@
 web: npm start
-pocketbase: ./server/pocketbase_linux/pocketbase serve
+worker: ./server/pocketbase_linux/pocketbase serve
