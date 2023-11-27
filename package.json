@@ -1,0 +1,10 @@
+{
+    "scripts": {
+      "install-client": "cd client && npm install",
+      "install-server": "cd server && npm install",
+      "build-client": "cd client && npm run build",
+      "start": "cd server && npm start",
+      "postinstall": "npm run build-client"
+    }
+  }
+  

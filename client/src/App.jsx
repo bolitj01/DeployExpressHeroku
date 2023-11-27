@@ -12,7 +12,7 @@ const style = {
 	count: `text-center p-2 font-semibold`,
 };
 
-let devAPIURL = "http://localhost:8080";
+// let devAPIURL = "http://localhost:8080";
 
 const App = () => {
 	const [todos, setTodos] = useState([]);
@@ -21,7 +21,7 @@ const App = () => {
 	//Read todos from Pocketbase
 	async function getTodos() {
 		try {
-			const res = await fetch(`${devAPIURL}/todos`);
+			const res = await fetch(`/todos`);
 			const data = await res.json();
 			let todos = data.items.map(t => {
 				return {
@@ -30,7 +30,6 @@ const App = () => {
 					completed: t.completed
 				}
 			})
-			console.log(todos);
 			setTodos(todos);
 		}
 		catch (err) {
@@ -50,7 +49,7 @@ const App = () => {
 			alert("Please enter a todo name!");
 			return;
 		}
-		const res = await fetch(`${devAPIURL}/create-todo`, {
+		const res = await fetch(`/create-todo`, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
@@ -64,7 +63,7 @@ const App = () => {
 
 	//toggle todo completeness
 	const toggleComplete = async (todo) => {
-		const res = await fetch(`${devAPIURL}/toggle-todo`, {
+		const res = await fetch(`toggle-todo`, {
 			method: "PUT",
 			headers: {
 				"Content-Type": "application/json",
@@ -76,7 +75,7 @@ const App = () => {
 
 	//delete todo
 	const deleteTodo = async (id) => {
-		const res = await fetch(`${devAPIURL}/delete-todo`, {
+		const res = await fetch(`delete-todo`, {
 			method: "DELETE",
 			headers: {
 				"Content-Type": "application/json",

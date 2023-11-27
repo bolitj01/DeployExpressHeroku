@@ -1,4 +1,3 @@
-import { log } from 'console';
 import PocketBase from 'pocketbase';
 import express from 'express';
 import path from 'path';
@@ -13,7 +12,6 @@ const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const buildFolder = "../client/dist";
-console.log('__dirname: ', __dirname);
 
 // Server React build folder
 app.use(express.static(path.join(__dirname, buildFolder)));
@@ -24,7 +22,6 @@ app.use(cors());
 
 // Serve React entrypoint index.html
 app.get('/', (req, res) => {
-    console.log("Home Page");
     res.sendFile(path.resolve(__dirname, buildFolder, 'index.html'));
 });
 
@@ -58,7 +55,6 @@ app.get('/todos', async (req, res) => {
         const todos = await pb.collection('todos').getList(1, 50, {
             filter: `user = "hvqhq4z4yzj256u"`,
         });
-        console.log('todos: ', todos);
         res.json(todos);
     } catch (error) {
         console.log('error: ', error);
@@ -87,7 +83,6 @@ app.get('/todos', async (req, res) => {
     const todos = await pb.collection('todos').getList(1, 50, {
         filter: `user = "hvqhq4z4yzj256u"`,
     });
-    log('todos: ', todos);
     res.json(todos);
 });
 
@@ -116,5 +111,5 @@ app.delete('/delete-todo', async (req, res) => {
 
 //start server
 app.listen(8080, () => {
-    log('Server started on port 8080');
+    console.log('Server started on port 8080');
 });
