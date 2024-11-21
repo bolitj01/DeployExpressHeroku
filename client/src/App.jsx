@@ -89,7 +89,7 @@ const App = () => {
 	return (
 		<div className={style.bg}>
 			<div className={style.container}>
-				<h3 className={style.heading}>Todo</h3>
+				<h3 className={style.heading}>Todo List</h3>
 				<form onSubmit={createTodo} className={style.form}>
 					<input
 						value={input}
