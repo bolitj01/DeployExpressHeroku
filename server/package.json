@@ -6,7 +6,8 @@
   "scripts": {
     "server": "node server.mjs",
     "database": "cd pocketbase_linux && chmod +x pocketbase && ./pocketbase serve",
-    "start": "concurrently \"npm run database\" \"npm run server\""
+    "start": "concurrently \"npm run database\" \"npm run server\"",
+    "test": "cypress run"
   },
   "keywords": [],
   "author": "",
